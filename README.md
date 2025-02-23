@@ -1,64 +1,53 @@
 ![Emerald Fund Logo](resources/EmeraldFundLogo.png)
 
-# "There's magic in giving"
+# "Bring the magic of giving back"
 
-The official Emerald Fund Dashboard plugin is a result of years of Hummingbot usage. With it's own Strategy format, you can create, backtest, and optimize in 1 place, without ever having to leave the Hummingbot Dashboard!
+Allow yourself to express the fullest creativity possible when making your next strategy!
+Emerald Fund 2 is the trusted partner that empowers you to craft strategies with finesse and vision. Because making strategies isn't just a task—it's an art form, and you are the artist.
 
-The goal is to be user-friendly while offering all the features that Hummingbot V2 has, in a beginner-friendly package.
+EF2 embodies automated trading as a way of life, a passion that never sleeps. From sunrise to sunset, from brainstorming to execution, you are crafting smarter, better strategies that open new possibilities.
+
+Whether you're refining ideas late into the night or striking inspiration on the go, EF2 is your constant companion. Let your creativity flow, explore new frontiers, and turn your visions into reality with Emerald Fund 2.
+
+# Alpha stage notice
+
+We're currently in Alpha mode! Many things are not finished and we're open for testing and feedback!
+
+Current demo is hosted here: <https://ef2.emerald.show>
+
+- Feel free to [join my Discord server](https://discord.gg/dCjH8zZXuM) for questions, testing, contributing or feedback (you can also tag @emerald in the Hummingbot Discord!)
 
 # Tutorial + Demo
 
-Here's everything you need to know: https://youtu.be/5jaC5fbqK6M
+Here's everything you need to know: <https://youtu.be/5jaC5fbqK6M>
 
 # Features
 
-- Easy to install on top of the official Hummingbot Deploy
-- Completely made up-to-date with V2 strategies, backend API and the Dashboard
-- Custom V2 strategy format: Create, backtest, optimize in 1 place
-- Automatic support for Optuna optimization (no need to code this yourself)
-- Multi strategy: Both directional and perpetual market making is supported!
-- Extremely powerful Optuna optimizer framework: Test your strategies against multiple market conditions, improved performance and better overview of your strategy's strong and weak spots.
-
-# How to install
-
-- To avoid conflicts, make sure that any previous installation of Hummingbot Deploy is shut down if you have one.
-  - For more advanced users, it is possible to add the Emerald fund to their own Deploy installation by following what changes have been made in our repo.
-- Follow the instructions in the patched Hummingbot Deploy: https://github.com/peterwilli/hummingbot-deploy/tree/emerald-fund
-- Once the dashboard is live, the emerald fund should be on the left side of your dashboard!
-  ![Screenshot of dashboard showing where Emerald Fund is](resources/dashboard_screenshot.png)
-- You can play with some [examples from here](example_strategies/). When pasting examples, make sure to hit ctrl+enter (cmd+enter on Mac) to load the new code!
-- Last but not least - Have fun! And if you make money, remember, think of how many people you can help with your gains, rather than how many sports cars you can buy. Trust me, its much more fulfilling!
-
-# How to update
-
-Just run `git pull` followed by `docker compose restart` on the deploy folder!
+- Ridiculously fast, backtests and modifications to strategies show real-time
+- Design, test, update and share strategies from 1 interface
+- Beginner friendly - uses visual building blocks to design your strategy, 100% no-code!
+- The fastest solution available thanks to the multifunctional node execution engine, multithreading and GPU acceleration
+- Export your strategies directly into Hummingbot and run at near-native speed
 
 # Changelog 🏗
 
-## 2024-09-30
+## 2025-02-22
 
-![Screenshot showing changes below](resources/2024_09_30_scr.png)
-1. Lock variables during optimization! If you have risk preferences you wish not to change, you can lock those here.
-2. Multi-objective: You can now customize where to optimize your strategy for, with speed being a third objective you can now use!
-3. Add current config to study: Lets say you wish to use your optimized strategy on a new trading pair. With this feature, you can push the config to the same pipeline as the rest of the trials. This way, you may have a headstart if you do this with a highly optimized strategy but with some small changes, such as a different trading pair.
-
-## 2024-09-29
-
-1. Huge speed boost, nearly 10x faster on optimization with sections!
+First release
 
 # Coming soon 👀
 
-- Full-AI assistant: Assist in creation, optimization, and backtesting, as well as correct mistakes and propose updated strategies based on findings during backtesting
-    - Training EmeraldFundLlama is expensive! All the data and models are in-house made with a custom dataset and training happens on my own budget, a lot of manual labour to automate the rest. [Please consider subscribing to my patreon and you will get early access to the models](https://www.patreon.com/emerald_show).
+- SMA implemented + visual feedback?
 
 # Support / contribute
 
 - Feel free to [join my Discord server](https://discord.gg/dCjH8zZXuM), we can chat!
 - I'm open for feedback and contributions, feel free to join in!
-- Financial contributions are welcome on my patreon, you'll get exclusive access to early content + a special role on my server 💚
+- [Financial contributions are welcome on my Patreon](https://www.patreon.com/c/emerald_show), you'll get exclusive access to early content + a special role on my server 💚
 
 # Thanks
 
+- The members on discord, Patreon subscribers and all that put the word out, it gave me warm fuzzy vibes!
 - dardonacci and fengtality for showing me the Dashboard and giving me a crash course
 - dardonacci for answering all my questions I had during the development. It would otherwise not have been possible
 
