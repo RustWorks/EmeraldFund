@@ -1,7 +1,7 @@
 use super::nodes::{
     compare::CompareNode, execute_position::ExecutePositionNode, fuse_signals::FuseSignalsNode,
-    market_data::MarketDataNode, sma::SMANode, split_candles::SplitCandlesNode,
-    to_signal::ToSignalNode,
+    market_data::MarketDataNode, preview::PreviewNode, sma::SMANode,
+    split_candles::SplitCandlesNode, to_signal::ToSignalNode,
 };
 use crate::{
     create_nodes,
@@ -12,7 +12,7 @@ use egui::{TextBuffer, Ui};
 use egui_snarl::{InPin, NodeId, OutPin};
 use polars::frame::DataFrame;
 use serde::{Deserialize, Serialize};
-use std::{borrow::Cow, sync::Arc};
+use std::{any::Any, borrow::Cow, sync::Arc};
 
 pub enum NodeDataType {
     Mask,
@@ -49,7 +49,8 @@ impl EFNodeFNSerialized<'_> {
             ExecutePositionNode,
             SplitCandlesNode,
             ToSignalNode,
-            FuseSignalsNode
+            FuseSignalsNode,
+            PreviewNode
         );
         self.loaded_node = Some(loaded_node);
         Ok(())
@@ -96,5 +97,9 @@ pub trait EFNodeFn: Send + Sync {
         input_args: &[crate::node_editor::node_trait::CheapCloneNodeDataTypeWithValue],
     ) -> Result<Vec<crate::node_editor::node_trait::CheapCloneNodeDataTypeWithValue>> {
         Ok(vec![])
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        todo!("If this fails you need to implement this");
     }
 }

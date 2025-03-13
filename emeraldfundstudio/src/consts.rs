@@ -7,8 +7,8 @@ use crate::node_editor::{
     node_trait::EFNodeFn,
     nodes::{
         compare::CompareNode, execute_position::ExecutePositionNode, fuse_signals::FuseSignalsNode,
-        market_data::MarketDataNode, sma::SMANode, split_candles::SplitCandlesNode,
-        to_signal::ToSignalNode,
+        market_data::MarketDataNode, preview::PreviewNode, sma::SMANode,
+        split_candles::SplitCandlesNode, to_signal::ToSignalNode,
     },
 };
 
@@ -27,5 +27,6 @@ pub static NODE_DEFAULT_VALUES: Lazy<HashMap<&'static str, Value>> = Lazy::new(|
         "ExecutePositionNode",
         ExecutePositionNode::default().export_data(),
     );
+    m.insert("PreviewNode", PreviewNode::default().export_data());
     m
 });

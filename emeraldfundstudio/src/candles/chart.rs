@@ -1,11 +1,16 @@
 use crate::{
-    node_editor::node_trait::{EFNodeFNSerialized, NodeDataTypeWithValue},
+    node_editor::{
+        node_trait::{
+            CheapCloneNodeDataTypeWithValue, EFNodeFNSerialized, EFNodeFn, NodeDataTypeWithValue,
+        },
+        nodes::preview::PreviewNode,
+    },
     node_runners::realtime::NODE_COMPUTE_CACHE,
     types::candles::generate_candles,
 };
 use chrono::{DateTime, Utc};
 use ecolor::Color32;
-use egui_plot::{BoxElem, BoxPlot, BoxSpread, Legend, MarkerShape, Plot, Points};
+use egui_plot::{BoxElem, BoxPlot, BoxSpread, Legend, Line, MarkerShape, Plot, PlotPoints, Points};
 use egui_snarl::{InPinId, Snarl};
 use epaint::Stroke;
 use itertools::izip;
@@ -120,6 +125,34 @@ pub fn signals_as_markers<'a>(
     return result;
 }
 
+fn get_preview_outputs<'a>(
+    snarl: &'a Snarl<EFNodeFNSerialized<'a>>,
+) -> impl Iterator<Item = ([u8; 3], CheapCloneNodeDataTypeWithValue)> + use<'a> {
+    snarl.node_ids().filter_map(|(id, node)| {
+        if node.get_node().get_name() != "PreviewNode" {
+            return None;
+        }
+        let in_pin = snarl.in_pin(InPinId { node: id, input: 0 });
+        if in_pin.remotes.is_empty() {
+            return None;
+        }
+        let idx_of_node_connected_to_preview = in_pin.remotes[0].node.0;
+        if !NODE_COMPUTE_CACHE.contains_key(&idx_of_node_connected_to_preview) {
+            return None;
+        }
+        let cache_of_node_connected_to_preview = NODE_COMPUTE_CACHE
+            .get(&idx_of_node_connected_to_preview)
+            .unwrap();
+        let output_value = cache_of_node_connected_to_preview[in_pin.remotes[0].output].clone();
+        let preview_node = node
+            .get_node()
+            .as_any()
+            .downcast_ref::<PreviewNode>()
+            .unwrap();
+        return Some((preview_node.output_color, output_value));
+    })
+}
+
 pub fn candlestick_chart(ui: &mut eframe::egui::Ui, snarl: &Snarl<EFNodeFNSerialized<'_>>) {
     let candles = generate_candles(21, 500).unwrap();
     let first_timestamp = candles
@@ -161,6 +194,21 @@ pub fn candlestick_chart(ui: &mut eframe::egui::Ui, snarl: &Snarl<EFNodeFNSerial
                 plot_ui.box_plot(data);
                 for marker in markers.into_iter() {
                     plot_ui.points(marker);
+                }
+                for output in get_preview_outputs(&snarl) {
+                    if let NodeDataTypeWithValue::DecimalSequence(seq) = &*output.1 {
+                        let f64_iter = seq.iter().enumerate().filter_map(|(i, x)| {
+                            if let Some(x) = x {
+                                return Some([i as f64 * 0.01, x]);
+                            }
+                            None
+                        });
+                        let line_points = PlotPoints::from_iter(f64_iter);
+                        let line = Line::new(line_points)
+                            .color(Color32::from_rgb(output.0[0], output.0[1], output.0[2]))
+                            .style(egui_plot::LineStyle::Solid);
+                        plot_ui.line(line);
+                    }
                 }
             });
         },
